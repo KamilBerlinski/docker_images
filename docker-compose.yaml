@@ -1,0 +1,17 @@
+services:
+  etl-job:
+    build: .
+    volumes:
+      - .:/data_docker  # <-- mounting volume
+    environment:
+      - TAJNE_HASLO=SuperSekret123
+      - SRODOWISKO=PRODUKCJAdupy
+    working_dir: /data_docker 
+    command: python main.py
+    depends_on:
+      - warehouse
+
+  warehouse:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRESS_PASSWORD=value
