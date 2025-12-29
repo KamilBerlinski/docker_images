@@ -1,11 +1,15 @@
 services:
   etl-job:
-    build: .
+    build: ./backend
     volumes:
-      - .:/data_docker  # <-- mounting volume
+      - ./backend:/data_docker  # <-- mounting volume
     environment:
-      - TAJNE_HASLO=SuperSekret123
-      - SRODOWISKO=PRODUKCJAdupy
+      - TAJNE_HASLO=${APP_SECRET}
+      - SRODOWISKO=${ENV_TYPE}
+      - DB_HOST=warehouse
+      - DB_USER=postgres
+      - DB_PASS=${POSTGRES_PASS}
+      - DB_NAME=postgres
     working_dir: /data_docker 
     command: python main.py
     depends_on:
@@ -14,4 +18,6 @@ services:
   warehouse:
     image: postgres:15-alpine
     environment:
-      - POSTGRESS_PASSWORD=value
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
