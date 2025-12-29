@@ -41,7 +41,7 @@ sequenceDiagram
     end
 
     Warehouse-->>ETLJob: Connection successful!
-    ETLJob->>Warehouse: Execute `SELECT * FROM pracownicy;`
+    ETLJob->>Warehouse: Execute `SELECT * FROM pracownicy`
     activate Warehouse
     Warehouse-->>ETLJob: Return rows
     deactivate Warehouse
